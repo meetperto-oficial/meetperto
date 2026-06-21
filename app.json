@@ -11,27 +11,12 @@
       "resizeMode": "contain",
       "backgroundColor": "#FF4458"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.encontro.app"
-    },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FF4458"
-      },
-      "package": "com.encontro.app"
+      "package": "com.eliasroberto26.encontro",
+      "versionCode": 1
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": ""
-      }
+    "ios": {
+      "bundleIdentifier": "com.eliasroberto26.encontro"
     }
   }
 }
