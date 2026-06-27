@@ -35,7 +35,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "a1b2c3d4-e5f6-7890-abcd-1234567890ab"
+        "projectId": "ec7aa273-0367-4788-bb19-56054fc14529"
       }
     },
     "plugins": [
@@ -45,6 +45,11 @@
           "locationAlwaysAndWhenInUsePermission": "O Encontro precisa da sua localização para encontrar pessoas próximas."
         }
       ]
+    ],
+    "sdkVersion": "51.0.0",
+    "platforms": [
+      "ios",
+      "android"
     ]
   }
 }
