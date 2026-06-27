@@ -1,43 +1,45 @@
+
 {
   "expo": {
     "name": "Encontro",
     "slug": "encontro",
-    "version": "2.0.0",
-    "owner": "encontro",
+    "version": "1.0.0",
     "orientation": "portrait",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FFFFFF"
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.encontro.app"
     },
     "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
       "package": "com.encontro.app",
-      "versionCode": 2,
-      "permissions": [
-        "ACCESS_COARSE_LOCATION",
-        "ACCESS_FINE_LOCATION",
-        "com.android.vending.BILLING"
-      ]
-    },
-    "extra": {
-      "eas": {
-        "projectId": "ec7aa273-0367-4788-bb19-56054fc14529"
+      "splash": {
+        "image": "./assets/splash.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#FFFFFF"
       }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
     },
     "plugins": [
       [
-        "expo-location",
+        "expo-splash-screen",
         {
-          "locationAlwaysAndWhenInUsePermission": "O Encontro precisa da sua localização para encontrar pessoas próximas."
+          "image": "./assets/splash.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#FFFFFF"
         }
       ]
-    ],
-    "sdkVersion": "51.0.0",
-    "platforms": [
-      "ios",
-      "android"
     ]
   }
 }
