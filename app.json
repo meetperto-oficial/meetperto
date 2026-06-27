@@ -25,11 +25,7 @@
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",
         "com.android.vending.BILLING"
-      ],
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
