@@ -5,13 +5,7 @@
     "version": "2.0.0",
     "owner": "encontro",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -26,9 +20,6 @@
         "ACCESS_FINE_LOCATION",
         "com.android.vending.BILLING"
       ]
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
