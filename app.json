@@ -2,25 +2,24 @@
   "expo": {
     "name": "Encontro",
     "slug": "encontro",
-    "owner": "encontro",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.encontro.app"
-    },
-    "android": {
+    "splash": { "image": "./assets/splash.png", "resizeMode": "contain", "backgroundColor": "#ffffff" },
+    "ios": { "supportsTablet": true, "bundleIdentifier": "com.encontro.app" },
+    "android": { 
+      "adaptiveIcon": { "foregroundImage": "./assets/adaptive-icon.png", "backgroundColor": "#ffffff" }, 
       "package": "com.encontro.app",
-      "versionCode": 1
+      "versionCode": 2,
+      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
     },
-    "extra": {
-      "eas": {
-        "projectId": "ec7aa273-0367-4788-bb19-56054fc14529"
-      }
-    }
+    "web": { "favicon": "./assets/favicon.png" },
+    "plugins": [
+      [
+        "expo-location",
+        { "locationAlwaysAndWhenInUsePermission": "O Encontro usa sua localização para mostrar pessoas próximas a você." }
+      ]
+    ]
   }
 }
