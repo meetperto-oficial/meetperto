@@ -1,5 +1,5 @@
 // App.js - MeetPerto v2.0
-// ONDE MUDAR: PLANOS, FAIXAS DE DISTÂNCIA, CORES
+// ONDE MUDAR: PLANOS, FAIXAS DE DISTÂNCIA, CORES, IDADE
 
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -8,7 +8,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-// IMPORTAR SUAS TELAS
 import FilaLinearScreen from './screens/FilaLinearScreen';
 import FiltrosScreen from './screens/FiltrosScreen';
 import RadarScreen from './screens/RadarScreen';
@@ -52,32 +51,40 @@ export default function App() {
     carregarDadosUsuario();
   }, []);
 
-  // ONDE MUDAR: LÓGICA DE 48H GRÁTIS
+  // ONDE MUDAR: LÓGICA DE 48H GRÁTIS + BÔNUS
   const carregarDadosUsuario = async () => {
     try {
       const dados = await AsyncStorage.getItem('meetperto_user');
       if (dados) {
         const user = JSON.parse(dados);
-        // Verifica se 48h grátis acabou
         const horasDesdeCadastro = (Date.now() - user.cadastro) / 1000 / 60 / 60;
-        if (user.plano === 'gratis' && horasDesdeCadastro > 48 && user.horasBonus <= 0) {
-          Alert.alert('Período Grátis Encerrado', 'Escolha um plano para continuar');
+        const horasTotais = 48 + (user.horasBonus || 0);
+        
+        // Verifica se período grátis acabou E sem curtidas
+        if (user.plano === 'gratis' && horasDesdeCadastro > horasTotais && user.curtidasRestantes <= 0) {
+          Alert.alert('Período Grátis Encerrado', 'Escolha um plano para continuar curtindo');
         }
         setUserData(user);
       } else {
-        // Primeiro acesso
+        // Primeiro acesso - cria usuário com 48h grátis
         const novoUser = {
           cadastro: Date.now(),
           plano: 'gratis',
           curtidasRestantes: CONFIG.PLANOS.gratis.curtidas,
           horasBonus: 0,
-          filtros: { busca: 'mulher', idadeMin: 18, idadeMax: 70, estilo: 'gosto de todas' }
+          convites: 0,
+          filtros: { 
+            busca: 'mulher', 
+            idadeMin: CONFIG.IDADE_MIN, 
+            idadeMax: CONFIG.IDADE_MAX, 
+            estilo: 'gosto de todas' 
+          }
         };
         await AsyncStorage.setItem('meetperto_user', JSON.stringify(novoUser));
         setUserData(novoUser);
       }
     } catch (e) {
-      console.error(e);
+      console.error('Erro ao carregar usuário:', e);
     }
   };
 
@@ -85,36 +92,53 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <StatusBar backgroundColor={CONFIG.COR_PRINCIPAL} />
+      <StatusBar backgroundColor={CONFIG.COR_PRINCIPAL} barStyle="light-content" />
       <Tab.Navigator
         screenOptions={{
           tabBarActiveTintColor: CONFIG.COR_PRINCIPAL,
-          headerShown: false
+          tabBarInactiveTintColor: '#999',
+          headerShown: false,
+          tabBarStyle: { paddingBottom: 5, height: 60 }
         }}>
         <Tab.Screen 
           name="Fila" 
-          component={FilaLinearScreen} 
-          options={{ tabBarIcon: ({color}) => <Icon name="heart" size={26} color={color} /> }}
+          component={FilaLinearScreen}
+          options={{ 
+            tabBarLabel: 'Início',
+            tabBarIcon: ({color}) => <Icon name="heart" size={26} color={color} /> 
+          }}
         />
         <Tab.Screen 
           name="Radar" 
           component={RadarScreen}
-          options={{ tabBarIcon: ({color}) => <Icon name="radar" size={26} color={color} /> }}
+          options={{ 
+            tabBarLabel: 'Radar',
+            tabBarIcon: ({color}) => <Icon name="radar" size={26} color={color} /> 
+          }}
         />
         <Tab.Screen 
           name="Filtros" 
           component={FiltrosScreen}
-          options={{ tabBarIcon: ({color}) => <Icon name="filter" size={26} color={color} /> }}
+          options={{ 
+            tabBarLabel: 'Filtros',
+            tabBarIcon: ({color}) => <Icon name="filter-variant" size={26} color={color} /> 
+          }}
         />
         <Tab.Screen 
           name="Planos" 
           component={PlanosScreen}
-          options={{ tabBarIcon: ({color}) => <Icon name="crown" size={26} color={color} /> }}
+          options={{ 
+            tabBarLabel: 'Planos',
+            tabBarIcon: ({color}) => <Icon name="crown" size={26} color={color} /> 
+          }}
         />
         <Tab.Screen 
           name="Perfil" 
           component={PerfilScreen}
-          options={{ tabBarIcon: ({color}) => <Icon name="account" size={26} color={color} /> }}
+          options={{ 
+            tabBarLabel: 'Perfil',
+            tabBarIcon: ({color}) => <Icon name="account" size={26} color={color} /> 
+          }}
         />
       </Tab.Navigator>
     </NavigationContainer>
