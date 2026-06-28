@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,8 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UserContext } from '../../../App';
 
 export default function Etapa6Finalizar({ route, navigation }) {
   const {
@@ -24,6 +26,7 @@ export default function Etapa6Finalizar({ route, navigation }) {
     preferencias
   } = route.params;
 
+  const { setUser } = useContext(UserContext);
   const [status, setStatus] = useState('salvando'); // salvando | sucesso | erro
 
   useEffect(() => {
@@ -32,7 +35,6 @@ export default function Etapa6Finalizar({ route, navigation }) {
 
   const criarConta = async () => {
     try {
-      // AQUI VOCÊ VAI FAZER O POST PRO TEU BACKEND
       const dadosCompletos = {
         metodo,
         valor,
@@ -49,7 +51,7 @@ export default function Etapa6Finalizar({ route, navigation }) {
 
       console.log('Enviando pro backend:', dadosCompletos);
 
-      // Exemplo de como vai ficar:
+      // TODO: Substituir pela sua API real
       // const response = await fetch('https://suaapi.com/auth/cadastro', {
       //   method: 'POST',
       //   headers: { 'Content-Type': 'application/json' },
@@ -57,25 +59,22 @@ export default function Etapa6Finalizar({ route, navigation }) {
       // });
       // 
       // if (!response.ok) throw new Error('Erro no cadastro');
+      // const data = await response.json();
+      // const token = data.token;
 
-      // Simulação de API por 2 segundos
+      // SIMULAÇÃO - REMOVER QUANDO TIVER BACKEND
       await new Promise(resolve => setTimeout(resolve, 2000));
+      const token = 'token_teste_' + Date.now();
 
+      // SALVA O TOKEN E LOGA O USUÁRIO
+      await AsyncStorage.setItem('userToken', token);
+      await AsyncStorage.setItem('userData', JSON.stringify(dadosCompletos));
+      
       setStatus('sucesso');
 
-      // Espera 1.5s e vai pro app principal
+      // Espera 1.5s e navega pro app principal
       setTimeout(() => {
-        // Quando tiver a tela principal pronta, descomenta isso:
-        // navigation.reset({
-        //   index: 0,
-        //   routes: [{ name: 'MainApp' }],
-        // });
-        
-        Alert.alert(
-          'Bem-vindo ao MeetPerto! 💕',
-          'Seu perfil foi criado com sucesso. Agora é só integrar com o backend.',
-          [{ text: 'OK' }]
-        );
+        setUser({ token, ...dadosCompletos });
       }, 1500);
 
     } catch (error) {
@@ -105,7 +104,7 @@ export default function Etapa6Finalizar({ route, navigation }) {
             <Text style={styles.emoji}>🎉</Text>
             <Text style={styles.titulo}>Bem-vindo ao MeetPerto!</Text>
             <Text style={styles.subtitulo}>Seu perfil foi criado com sucesso</Text>
-            <Text style={styles.dica}>Agora você já pode começar a dar matches!</Text>
+            <Text style={styles.dica}>Preparando tudo pra você...</Text>
           </>
         )}
 
