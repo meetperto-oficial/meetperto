@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
-  StyleSheet, 
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
   Alert,
   KeyboardAvoidingView,
-  Platform 
+  Platform,
+  ActivityIndicator
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -15,6 +16,7 @@ export default function Etapa1Cadastro({ navigation }) {
   const [metodo, setMetodo] = useState('email');
   const [valor, setValor] = useState('');
   const [senha, setSenha] = useState('');
+  const [confirmarSenha, setConfirmarSenha] = useState('');
   const [loading, setLoading] = useState(false);
 
   const validarEmail = (email) => {
@@ -31,10 +33,13 @@ export default function Etapa1Cadastro({ navigation }) {
     const cleaned = text.replace(/\D/g, '');
     let formatted = cleaned;
     if (cleaned.length >= 2) {
-      formatted = `(${cleaned.slice(0, 2)}) ${cleaned.slice(2)}`;
-    }
-    if (cleaned.length >= 7) {
-      formatted = `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 7)}-${cleaned.slice(7, 11)}`;
+      formatted = `(${cleaned.slice(0, 2)}) `;
+      if (cleaned.length >= 3) {
+        formatted += `${cleaned.slice(2, 7)}`;
+        if (cleaned.length >= 8) {
+          formatted += `-${cleaned.slice(7, 11)}`;
+        }
+      }
     }
     return formatted;
   };
@@ -51,54 +56,67 @@ export default function Etapa1Cadastro({ navigation }) {
     }
 
     if (metodo === 'telefone' && !validarTelefone(valor)) {
-      Alert.alert('Telefone inválido', 'Digite um telefone válido com DDD');
+      Alert.alert('Telefone inválido', 'Digite um telefone válido');
       return;
     }
 
-    if (metodo === 'email' && senha.length < 8) {
+    // VALIDAÇÃO DE SENHA CORRIGIDA - SEMPRE VALIDA
+    if (senha.length < 8) {
       Alert.alert('Senha fraca', 'A senha precisa ter no mínimo 8 caracteres');
+      return;
+    }
+
+    if (senha !== confirmarSenha) {
+      Alert.alert('Erro', 'As senhas não coincidem');
       return;
     }
 
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      navigation.navigate('Etapa2Verificacao', { 
-        metodo, 
-        valor, 
-        senha: metodo === 'email' ? senha : null 
+      // CORRIGIDO - SEMPRE PASSA A SENHA
+      navigation.navigate('Etapa2Verificacao', {
+        metodo,
+        valor,
+        senha,
       });
     }, 500);
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.container}
       >
         <View style={styles.content}>
-          <Text style={styles.logo}>MeetPerto 💕</Text>
-          <Text style={styles.titulo}>O amor não mora longe.</Text>
-          
-          <Text style={styles.subtitulo}>Como você quer criar sua conta?</Text>
+          <Text style={styles.logo}>MeetPerto</Text>
+          <Text style={styles.titulo}>O amor não mora longe</Text>
+
+          <Text style={styles.subtitulo}>Como você quer se cadastrar?</Text>
 
           <View style={styles.metodoContainer}>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={[styles.metodoBtn, metodo === 'email' && styles.metodoAtivo]}
-              onPress={() => {setMetodo('email'); setValor(''); setSenha('');}}
+              onPress={() => {
+                setMetodo('email');
+                setValor('');
+              }}
             >
               <Text style={[styles.metodoTexto, metodo === 'email' && styles.metodoTextoAtivo]}>
-                📧 E-mail
+                E-mail
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity 
+            <TouchableOpacity
               style={[styles.metodoBtn, metodo === 'telefone' && styles.metodoAtivo]}
-              onPress={() => {setMetodo('telefone'); setValor(''); setSenha('');}}
+              onPress={() => {
+                setMetodo('telefone');
+                setValor('');
+              }}
             >
               <Text style={[styles.metodoTexto, metodo === 'telefone' && styles.metodoTextoAtivo]}>
-                📱 Telefone
+                Telefone
               </Text>
             </TouchableOpacity>
           </View>
@@ -120,26 +138,36 @@ export default function Etapa1Cadastro({ navigation }) {
             maxLength={metodo === 'telefone' ? 15 : 50}
           />
 
-          {metodo === 'email' && (
-            <TextInput
-              style={styles.input}
-              placeholder="Crie uma senha forte"
-              placeholderTextColor="#999"
-              value={senha}
-              onChangeText={setSenha}
-              secureTextEntry
-              autoCapitalize="none"
-            />
-          )}
+          <TextInput
+            style={styles.input}
+            placeholder="Crie uma senha forte"
+            placeholderTextColor="#999"
+            value={senha}
+            onChangeText={setSenha}
+            secureTextEntry
+            autoCapitalize="none"
+          />
 
-          <TouchableOpacity 
-            style={[styles.botao, loading && styles.botaoDesabilitado]} 
+          <TextInput
+            style={styles.input}
+            placeholder="Confirme sua senha"
+            placeholderTextColor="#999"
+            value={confirmarSenha}
+            onChangeText={setConfirmarSenha}
+            secureTextEntry
+            autoCapitalize="none"
+          />
+
+          <TouchableOpacity
+            style={[styles.botao, loading && styles.botaoDesabilitado]}
             onPress={handleContinuar}
             disabled={loading}
           >
-            <Text style={styles.botaoTexto}>
-              {loading ? 'Enviando...' : 'Continuar'}
-            </Text>
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={styles.botaoTexto}>Continuar</Text>
+            )}
           </TouchableOpacity>
 
           <Text style={styles.termos}>
