@@ -95,11 +95,11 @@ export default function HomeFeed({ navigation }) {
     console.log('DISLIKE:', perfis[cardIndex].nome);
   };
 
-  const handleSwipeRight = (cardIndex) => {
-    console.log('LIKE:', perfis[cardIndex].nome);
-    // Aqui vai a lógica de match depois
-  };
-
+  const handleSwipedRight = (cardIndex) => {
+  const item = users[cardIndex];
+  navigation.navigate('ChatMatch', { match: item }); // ← COLA ESSA LINHA
+};
+  
   const handleSwipeTop = (cardIndex) => {
     console.log('SUPER LIKE:', perfis[cardIndex].nome);
   };
