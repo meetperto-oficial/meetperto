@@ -17,7 +17,8 @@ import Etapa2Verificacao from './src/screens/auth/Etapa2Verificacao';
 import Etapa3Informacoes from './src/screens/auth/Etapa3Informacoes';
 import Etapa4Fotos from './src/screens/auth/Etapa4Fotos';
 import Etapa5Preferencias from './src/screens/auth/Etapa5Preferencias';
-import Etapa6Finalizar from './src/screens/auth/Etapa6Finalizar';
+import Etapa6Termos from './src/screens/auth/Etapa6Termos';
+import Etapa7Finalizar from './src/screens/auth/Etapa7Finalizar';
 
 // Telas do App Principal
 import HomeFeed from './src/screens/main/HomeFeed';
