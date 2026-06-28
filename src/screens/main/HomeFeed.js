@@ -4,15 +4,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Location from 'expo-location';
 import Swiper from 'react-native-deck-swiper';
 import { Ionicons } from '@expo/vector-icons';
-import { db, auth } from '../firebaseConfig'; // CONFIRMA SE O CAMINHO TÁ CERTO
-import { 
-  collection, 
-  doc, 
-  setDoc, 
-  getDoc, 
-  getDocs, 
-  query, 
-  where, 
+import { db, auth } from '../firebaseConfig';
+import {
+  collection,
+  doc,
+  setDoc,
+  getDoc,
+  getDocs,
+  query,
+  where,
   serverTimestamp,
   updateDoc
 } from 'firebase/firestore';
@@ -46,7 +46,7 @@ export default function HomeFeed({ navigation }) {
 
       let location = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
       setLocation(location.coords);
-      
+
       // SALVA MINHA LOCALIZAÇÃO NO FIRESTORE
       await updateDoc(doc(db, 'usuarios', currentUser.uid), {
         latitude: location.coords.latitude,
@@ -70,27 +70,27 @@ export default function HomeFeed({ navigation }) {
       const usuariosRef = collection(db, 'usuarios');
       const q = query(usuariosRef, where('uid', '!=', currentUser.uid));
       const querySnapshot = await getDocs(q);
-      
+
       // 2. PEGA QUEM EU JÁ CURTI PRA NÃO MOSTRAR DE NOVO
       const curtidasRef = collection(db, 'curtidas');
       const curtidasQuery = query(curtidasRef, where('de', '==', currentUser.uid));
       const curtidasSnapshot = await getDocs(curtidasQuery);
       const jaCurti = curtidasSnapshot.docs.map(doc => doc.data().para);
-      
+
       const usuarios = [];
       querySnapshot.forEach((doc) => {
         // PULA SE JÁ INTERAGI
         if (jaCurti.includes(doc.id)) return;
-        
+
         const data = doc.data();
         // PULA SE NÃO TEM LAT/LONG
         if (!data.latitude ||!data.longitude) return;
-        
+
         const distancia = calcularDistancia(coords.latitude, coords.longitude, data.latitude, data.longitude);
-        
+
         usuarios.push({
           id: doc.id,
-         ...data,
+        ...data,
           distancia
         });
       });
@@ -107,7 +107,7 @@ export default function HomeFeed({ navigation }) {
   };
 
   const calcularDistancia = (lat1, lon1, lat2, lon2) => {
-    const R = 6371; // km
+    const R = 6371;
     const dLat = (lat2 - lat1) * Math.PI / 180;
     const dLon = (lon2 - lon1) * Math.PI / 180;
     const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
@@ -127,7 +127,7 @@ export default function HomeFeed({ navigation }) {
     const perfil = perfis[cardIndex];
     if (!perfil) return;
     await salvarAcao(perfil.id, 'like');
-    
+
     const deuMatch = await verificarMatch(perfil.id);
     if (deuMatch) {
       Alert.alert('🎉 Deu Match!', `Você e ${perfil.nome} se curtiram!`);
@@ -139,7 +139,7 @@ export default function HomeFeed({ navigation }) {
     const perfil = perfis[cardIndex];
     if (!perfil) return;
     await salvarAcao(perfil.id, 'superlike');
-    
+
     const deuMatch = await verificarMatch(perfil.id);
     if (deuMatch) {
       Alert.alert('⭐ Super Match!', `${perfil.nome} também te curtiu!`);
@@ -163,7 +163,7 @@ export default function HomeFeed({ navigation }) {
   const verificarMatch = async (alvoId) => {
     try {
       const curtidaDoc = await getDoc(doc(db, 'curtidas', `${alvoId}_${currentUser.uid}`));
-      
+
       if (curtidaDoc.exists() && curtidaDoc.data().tipo!== 'dislike') {
         const matchId = [currentUser.uid, alvoId].sort().join('_');
         await setDoc(doc(db, 'matches', matchId), {
@@ -230,9 +230,9 @@ export default function HomeFeed({ navigation }) {
             if (!card) return null;
             return (
               <View style={styles.card}>
-                <Image 
-                  source={{ uri: card.fotos?.[0] || 'https://via.placeholder.com/400' }} 
-                  style={styles.cardImage} 
+                <Image
+                  source={{ uri: card.fotos?.[0] || 'https://via.placeholder.com/400' }}
+                  style={styles.cardImage}
                 />
                 <View style={styles.cardFooter}>
                   <View style={styles.cardInfo}>
@@ -260,26 +260,26 @@ export default function HomeFeed({ navigation }) {
           animateCardOpacity
           disableBottomSwipe
           overlayLabels={{
-            left: { 
-              title: 'NÃO', 
-              style: { 
+            left: {
+              title: 'NÃO',
+              style: {
                 label: { backgroundColor: '#FF3B30', color: 'white', fontSize: 24, borderRadius: 10, padding: 10 },
                 wrapper: { alignItems: 'flex-end', marginTop: 30, marginRight: 30 }
-              } 
+              }
             },
-            right: { 
-              title: 'CURTI', 
-              style: { 
+            right: {
+              title: 'CURTI',
+              style: {
                 label: { backgroundColor: '#4CD964', color: 'white', fontSize: 24, borderRadius: 10, padding: 10 },
                 wrapper: { alignItems: 'flex-start', marginTop: 30, marginLeft: 30 }
-              } 
+              }
             },
-            top: { 
-              title: 'SUPER LIKE', 
-              style: { 
+            top: {
+              title: 'SUPER LIKE',
+              style: {
                 label: { backgroundColor: '#007AFF', color: 'white', fontSize: 24, borderRadius: 10, padding: 10 },
                 wrapper: { alignItems: 'center', marginTop: 60 }
-              } 
+              }
             }
           }}
         />
