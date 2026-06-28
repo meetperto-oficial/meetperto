@@ -27,7 +27,7 @@ export default function Etapa6Finalizar({ route, navigation }) {
   } = route.params;
 
   const { setUser } = useContext(UserContext);
-  const [status, setStatus] = useState('salvando'); // salvando | sucesso | erro
+  const [status, setStatus] = useState('salvando');
 
   useEffect(() => {
     criarConta();
@@ -57,8 +57,6 @@ export default function Etapa6Finalizar({ route, navigation }) {
       //   headers: { 'Content-Type': 'application/json' },
       //   body: JSON.stringify(dadosCompletos)
       // });
-      // 
-      // if (!response.ok) throw new Error('Erro no cadastro');
       // const data = await response.json();
       // const token = data.token;
 
@@ -66,13 +64,13 @@ export default function Etapa6Finalizar({ route, navigation }) {
       await new Promise(resolve => setTimeout(resolve, 2000));
       const token = 'token_teste_' + Date.now();
 
-      // SALVA O TOKEN E LOGA O USUÁRIO
+      // SALVA TOKEN E DADOS
       await AsyncStorage.setItem('userToken', token);
       await AsyncStorage.setItem('userData', JSON.stringify(dadosCompletos));
       
       setStatus('sucesso');
 
-      // Espera 1.5s e navega pro app principal
+      // NAVEGA PRO APP PRINCIPAL
       setTimeout(() => {
         setUser({ token, ...dadosCompletos });
       }, 1500);
