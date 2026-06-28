@@ -1,377 +1,161 @@
 import React, { useState } from 'react';
 import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-  Image,
-  ScrollView,
-  ActivityIndicator
+  View, Text, StyleSheet, TouchableOpacity, Image,
+  ScrollView, Alert, SafeAreaView
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { CONFIG } from '../../../App';
 
-export default function Etapa4Fotos({ route, navigation }) {
-  const {
-    metodo,
-    valor,
-    senha,
-    verificado,
-    nome,
-    dataNascimento,
-    idade,
-    genero,
-    cidade
-  } = route.params;
+export default function Etapa4Fotos({ navigation }) {
+  const [photos, setPhotos] = useState([null, null, null, null]);
 
-  const [fotos, setFotos] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  const solicitarPermissao = async () => {
+  const pickImage = async (index) => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status!== 'granted') {
-      Alert.alert(
-        'Permissão necessária',
-        'Precisamos de acesso à sua galeria para você adicionar fotos.'
-      );
-      return false;
-    }
-    return true;
-  };
-
-  const solicitarPermissaoCamera = async () => {
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
-    if (status!== 'granted') {
-      Alert.alert(
-        'Permissão necessária',
-        'Precisamos de acesso à sua câmera para você tirar fotos.'
-      );
-      return false;
-    }
-    return true;
-  };
-
-  const escolherFoto = () => {
-    if (fotos.length >= 6) {
-      Alert.alert('Limite atingido', 'Você pode adicionar no máximo 6 fotos.');
+      Alert.alert('Erro', 'Preciso de permissão pra acessar suas fotos');
       return;
     }
 
-    Alert.alert(
-      'Adicionar foto',
-      'Como você quer adicionar sua foto?',
-      [
-        {
-          text: 'Câmera',
-          onPress: abrirCamera
-        },
-        {
-          text: 'Galeria',
-          onPress: abrirGaleria
-        },
-        {
-          text: 'Cancelar',
-          style: 'cancel'
-        }
-      ]
-    );
-  };
-
-  const abrirCamera = async () => {
-    const permissao = await solicitarPermissaoCamera();
-    if (!permissao) return;
-
-    const resultado = await ImagePicker.launchCameraAsync({
+    let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 5],
+      aspect: [3, 4],
       quality: 0.8,
     });
 
-    if (!resultado.canceled) {
-      setFotos([...fotos, resultado.assets[0].uri]);
+    if (!result.canceled) {
+      const newPhotos = [...photos];
+      newPhotos[index] = result.assets[0].uri;
+      setPhotos(newPhotos);
     }
   };
 
-  const abrirGaleria = async () => {
-    const permissao = await solicitarPermissao();
-    if (!permissao) return;
-
-    const resultado = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 5],
-      quality: 0.8,
-      allowsMultipleSelection: true,
-      selectionLimit: 6 - fotos.length,
-    });
-
-    if (!resultado.canceled) {
-      const novasFotos = resultado.assets.map(asset => asset.uri);
-      setFotos([...fotos,...novasFotos]);
-    }
+  const removePhoto = (index) => {
+    const newPhotos = [...photos];
+    newPhotos[index] = null;
+    setPhotos(newPhotos);
   };
 
-  const removerFoto = (index) => {
-    Alert.alert(
-      'Remover foto',
-      'Deseja remover esta foto?',
-      [
-        {
-          text: 'Cancelar',
-          style: 'cancel'
-        },
-        {
-          text: 'Remover',
-          style: 'destructive',
-          onPress: () => {
-            const novasFotos = fotos.filter((_, i) => i!== index);
-            setFotos(novasFotos);
-          }
-        }
-      ]
-    );
-  };
-
-  const handleContinuar = () => {
-    if (fotos.length < 2) {
-      Alert.alert(
-        'Fotos insuficientes',
-        'Adicione pelo menos 2 fotos para continuar. Isso aumenta suas chances de dar match!'
-      );
+  const handleContinue = () => {
+    const photosCount = photos.filter(p => p!== null).length;
+    if (photosCount < 2) {
+      Alert.alert('Ops!', 'Adiciona pelo menos 2 fotos pra continuar');
       return;
     }
-
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      navigation.navigate('Etapa5Preferencias', {
-        metodo,
-        valor,
-        senha,
-        verificado,
-        nome,
-        dataNascimento,
-        idade,
-        genero,
-        cidade,
-        fotos
-      });
-    }, 500);
+    // AGORA VAI PRO SELFIE LIVENESS ANTES DOS TERMOS
+    navigation.navigate('SelfieLiveness');
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.voltar}>
-          <Text style={styles.voltarTexto}>← Voltar</Text>
-        </TouchableOpacity>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Icon name="arrow-left" size={28} color="#000" />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>Fotos</Text>
+          <View style={{ width: 28 }} />
+        </View>
 
-        <Text style={styles.logo}>MeetPerto</Text>
-        <Text style={styles.titulo}>Adicione suas fotos</Text>
-        <Text style={styles.subtitulo}>
-          Perfis com 2+ fotos recebem 3x mais matches
-        </Text>
+        <ScrollView contentContainerStyle={styles.content}>
+          <Text style={styles.title}>Adicione suas melhores fotos 📸</Text>
+          <Text style={styles.subtitle}>Mínimo 2 fotos. A primeira será sua foto principal.</Text>
 
-        <View style={styles.grid}>
-          {fotos.map((foto, index) => (
-            <View key={index} style={styles.fotoContainer}>
-              <Image source={{ uri: foto }} style={styles.foto} />
+          <View style={styles.grid}>
+            {photos.map((photo, index) => (
               <TouchableOpacity
-                style={styles.btnRemover}
-                onPress={() => removerFoto(index)}
+                key={index}
+                style={styles.photoBox}
+                onPress={() => photo? removePhoto(index) : pickImage(index)}
               >
-                <Text style={styles.btnRemoverTexto}>✕</Text>
+                {photo? (
+                  <>
+                    <Image source={{ uri: photo }} style={styles.photo} />
+                    <View style={styles.removeButton}>
+                      <Icon name="close" size={20} color="#FFF" />
+                    </View>
+                    {index === 0 && (
+                      <View style={styles.mainBadge}>
+                        <Text style={styles.mainText}>Principal</Text>
+                      </View>
+                    )}
+                  </>
+                ) : (
+                  <View style={styles.addBox}>
+                    <Icon name="plus" size={40} color="#CCC" />
+                  </View>
+                )}
               </TouchableOpacity>
-              {index === 0 && (
-                <View style={styles.badgePrincipal}>
-                  <Text style={styles.badgeTexto}>Principal</Text>
-                </View>
-              )}
-            </View>
-          ))}
+            ))}
+          </View>
 
-          {fotos.length < 6 && (
-            <TouchableOpacity
-              style={styles.btnAdicionar}
-              onPress={escolherFoto}
-            >
-              <Text style={styles.btnAdicionarIcone}>+</Text>
-              <Text style={styles.btnAdicionarTexto}>Adicionar</Text>
-            </TouchableOpacity>
-          )}
+          <View style={styles.tips}>
+            <Text style={styles.tipsTitle}>💡 Dicas pra bombar:</Text>
+            <Text style={styles.tipText}>• Sorria nas fotos</Text>
+            <Text style={styles.tipText}>• Mostre seu rosto claramente</Text>
+            <Text style={styles.tipText}>• Evite fotos de grupo</Text>
+            <Text style={styles.tipText}>• Varie os ângulos</Text>
+          </View>
+        </ScrollView>
+
+        <View style={styles.footer}>
+          <TouchableOpacity
+            style={[styles.button, photos.filter(p => p!== null).length < 2 && styles.buttonDisabled]}
+            onPress={handleContinue}
+            disabled={photos.filter(p => p!== null).length < 2}
+          >
+            <Text style={styles.buttonText}>Continuar</Text>
+            <Icon name="arrow-right" size={24} color="#FFF" />
+          </TouchableOpacity>
         </View>
-
-        <View style={styles.infoBox}>
-          <Text style={styles.infoTexto}>
-            • Mínimo: 2 fotos{'\n'}
-            • Máximo: 6 fotos{'\n'}
-            • Primeira foto será a principal{'\n'}
-            • Evite fotos com óculos escuros
-          </Text>
-        </View>
-
-        <Text style={styles.contador}>
-          {fotos.length}/6 fotos adicionadas
-        </Text>
-
-        <TouchableOpacity
-          style={[
-            styles.botao,
-            (loading || fotos.length < 2) && styles.botaoDesabilitado
-          ]}
-          onPress={handleContinuar}
-          disabled={loading || fotos.length < 2}
-        >
-          {loading? (
-            <ActivityIndicator color="#fff" />
-          ) : (
-            <Text style={styles.botaoTexto}>
-              {fotos.length < 2? `Adicione mais ${2 - fotos.length}` : 'Continuar'}
-            </Text>
-          )}
-        </TouchableOpacity>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
+  safeArea: { flex: 1, backgroundColor: '#FFF' },
+  container: { flex: 1 },
+  header: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    padding: 15, borderBottomWidth: 1, borderBottomColor: '#EEE'
   },
-  scrollContent: {
-    padding: 24,
-    paddingBottom: 40,
-  },
-  voltar: {
-    marginBottom: 20,
-  },
-  voltarTexto: {
-    fontSize: 16,
-    color: '#FF4B8B',
-    fontWeight: '600',
-  },
-  logo: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: '#FF4B8B',
-    marginBottom: 8,
-  },
-  titulo: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: '#333',
-    marginBottom: 8,
-  },
-  subtitulo: {
-    fontSize: 14,
-    textAlign: 'center',
-    color: '#666',
-    marginBottom: 32,
-  },
+  headerTitle: { fontSize: 18, fontWeight: 'bold' },
+  content: { padding: 20 },
+  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 8 },
+  subtitle: { fontSize: 14, color: '#666', marginBottom: 25 },
   grid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-    marginBottom: 20,
+    flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', gap: 15
   },
-  fotoContainer: {
-    width: '31%',
-    aspectRatio: 3/4,
-    position: 'relative',
+  photoBox: {
+    width: '48%', aspectRatio: 3/4, borderRadius: 12, overflow: 'hidden',
+    backgroundColor: '#F5F5F5', marginBottom: 15
   },
-  foto: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 12,
-    backgroundColor: '#F0F0F0',
+  photo: { width: '100%', height: '100%' },
+  addBox: {
+    flex: 1, justifyContent: 'center', alignItems: 'center',
+    borderWidth: 2, borderColor: '#DDD', borderStyle: 'dashed', borderRadius: 12
   },
-  btnRemover: {
-    position: 'absolute',
-    top: -8,
-    right: -8,
-    backgroundColor: '#FF4B8B',
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#fff',
+  removeButton: {
+    position: 'absolute', top: 8, right: 8, backgroundColor: '#F44336',
+    width: 28, height: 28, borderRadius: 14, alignItems: 'center', justifyContent: 'center'
   },
-  btnRemoverTexto: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+  mainBadge: {
+    position: 'absolute', bottom: 8, left: 8, backgroundColor: CONFIG.COR_PRINCIPAL,
+    paddingHorizontal: 10, paddingVertical: 4, borderRadius: 12
   },
-  badgePrincipal: {
-    position: 'absolute',
-    bottom: 8,
-    left: 8,
-    backgroundColor: '#FF4B8B',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
+  mainText: { color: '#FFF', fontSize: 12, fontWeight: 'bold' },
+  tips: {
+    backgroundColor: '#F8F8F8', padding: 15, borderRadius: 12, marginTop: 20
   },
-  badgeTexto: {
-    color: '#fff',
-    fontSize: 10,
-    fontWeight: 'bold',
+  tipsTitle: { fontSize: 16, fontWeight: 'bold', marginBottom: 10 },
+  tipText: { fontSize: 14, color: '#666', marginBottom: 5 },
+  footer: { padding: 20, borderTopWidth: 1, borderTopColor: '#EEE' },
+  button: {
+    backgroundColor: CONFIG.COR_PRINCIPAL, flexDirection: 'row',
+    padding: 16, borderRadius: 25, alignItems: 'center', justifyContent: 'center'
   },
-  btnAdicionar: {
-    width: '31%',
-    aspectRatio: 3/4,
-    borderWidth: 2,
-    borderColor: '#E0E0E0',
-    borderStyle: 'dashed',
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#FAFAFA',
-  },
-  btnAdicionarIcone: {
-    fontSize: 40,
-    color: '#FF4B8B',
-    marginBottom: 4,
-  },
-  btnAdicionarTexto: {
-    fontSize: 12,
-    color: '#666',
-  },
-  infoBox: {
-    backgroundColor: '#FFF0F5',
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 16,
-  },
-  infoTexto: {
-    fontSize: 13,
-    color: '#666',
-    lineHeight: 20,
-  },
-  contador: {
-    textAlign: 'center',
-    fontSize: 14,
-    color: '#999',
-    marginBottom: 16,
-  },
-  botao: {
-    backgroundColor: '#FF4B8B',
-    padding: 18,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  botaoDesabilitado: {
-    opacity: 0.6,
-  },
-  botaoTexto: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
+  buttonDisabled: { backgroundColor: '#CCC' },
+  buttonText: { color: '#FFF', fontSize: 16, fontWeight: 'bold', marginRight: 8 },
 });
