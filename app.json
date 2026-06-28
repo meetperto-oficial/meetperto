@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Encontro",
-    "slug": "encontro",
+    "name": "MeetPerto",
+    "slug": "MeetPerto",
     "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,7 +19,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.encontro.app",
+      "bundleIdentifier": "com.MeetPerto.app",
       "buildNumber": "2.0.0"
     },
     "android": {
@@ -27,7 +27,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.encontro.app",
+      "package": "com.MeetPerto.app",
       "versionCode": 2,
       "splash": {
         "image": "./assets/splash.png",
