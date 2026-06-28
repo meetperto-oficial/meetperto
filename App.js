@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar, ActivityIndicator, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import ChatMatch from './src/screens/main/ChatMatch';
 
 // Telas de Cadastro
 import Etapa1Cadastro from './src/screens/auth/Etapa1Cadastro';
