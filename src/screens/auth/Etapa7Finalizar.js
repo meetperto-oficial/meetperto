@@ -1,18 +1,17 @@
 import React, { useEffect, useState, useContext } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  ActivityIndicator,
-  Alert,
-  TouchableOpacity
+import { 
+  View, 
+  Text, 
+  StyleSheet, 
+  SafeAreaView, 
+  ActivityIndicator, 
+  TouchableOpacity 
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { UserContext } from '../../../App';
+import { doc, setDoc, Timestamp } from 'firebase/firestore';
+import { auth, db } from '../../firebaseConfig';
+import { UserContext } from '../../contexts/UserContext';
 
-export default function Etapa7Finalizar({
-
+const Etapa7Finalizar = ({ route, navigation }) => {
   const {
     metodo,
     valor,
@@ -36,6 +35,9 @@ export default function Etapa7Finalizar({
 
   const criarConta = async () => {
     try {
+      const agora = Timestamp.now();
+      const expiraEm24h = Timestamp.fromMillis(Date.now() + 24 * 60 * 60 * 1000); // 24h
+      
       const dadosCompletos = {
         metodo,
         valor,
@@ -47,33 +49,31 @@ export default function Etapa7Finalizar({
         genero,
         cidade,
         fotos,
-        preferencias
+        preferencias,
+        // LÓGICA DO TRIAL 24H + 50 CURTIDAS
+        plano: 'gratis',
+        trialExpiraEm: expiraEm24h,
+        curtidasRestantes: 50,
+        convitesEnviados: 0,
+        convitesConvertidos: 0,
+        bonusTempo: 0,
+        bonusCurtidas: 0,
+        criadoEm: agora
       };
 
       console.log('Enviando pro backend:', dadosCompletos);
 
-      // TODO: Substituir pela sua API real
-      // const response = await fetch('https://suaapi.com/auth/cadastro', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(dadosCompletos)
-      // });
-      // const data = await response.json();
-      // const token = data.token;
-
-      // SIMULAÇÃO - REMOVER QUANDO TIVER BACKEND
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      const token = 'token_teste_' + Date.now();
-
-      // SALVA TOKEN E DADOS
-      await AsyncStorage.setItem('userToken', token);
-      await AsyncStorage.setItem('userData', JSON.stringify(dadosCompletos));
+      // SALVA NO FIRESTORE
+      const user = auth.currentUser;
+      await setDoc(doc(db, "users", user.uid), dadosCompletos);
       
+      const token = await user.getIdToken();
+
       setStatus('sucesso');
 
       // NAVEGA PRO APP PRINCIPAL
       setTimeout(() => {
-        setUser({ token, ...dadosCompletos });
+        setUser({ uid: user.uid, token, ...dadosCompletos });
       }, 1500);
 
     } catch (error) {
@@ -109,7 +109,7 @@ export default function Etapa7Finalizar({
 
         {status === 'erro' && (
           <>
-            <Text style={styles.emoji}>😔</Text>
+            <Text style={styles.emoji}>😕</Text>
             <Text style={styles.titulo}>Ops, algo deu errado</Text>
             <Text style={styles.subtitulo}>Não conseguimos criar sua conta</Text>
             
@@ -125,7 +125,7 @@ export default function Etapa7Finalizar({
       </View>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -158,16 +158,14 @@ const styles = StyleSheet.create({
   },
   dica: {
     fontSize: 14,
-    color: '#FF4B8B',
+    color: '#999',
     textAlign: 'center',
-    fontWeight: '600',
-    marginTop: 8,
   },
   botaoTentar: {
     backgroundColor: '#FF4B8B',
     paddingHorizontal: 32,
-    paddingVertical: 16,
-    borderRadius: 12,
+    paddingVertical: 14,
+    borderRadius: 25,
     marginTop: 32,
   },
   botaoTentarTexto: {
@@ -176,9 +174,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   voltarTexto: {
-    color: '#FF4B8B',
-    fontSize: 16,
-    fontWeight: '600',
+    color: '#666',
+    fontSize: 14,
     marginTop: 16,
   },
 });
+
+export default Etapa7Finalizar;
