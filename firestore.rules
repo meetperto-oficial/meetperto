@@ -1,1 +1,47 @@
+rules_version = '2';
 
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Regra 1: USERS - Só pode editar o próprio perfil
+    match /users/{userId} {
+      // Qualquer um logado pode ler perfis pra ver no app
+      allow read: if request.auth != null;
+      
+      // Só o próprio usuário pode criar/atualizar seu doc
+      allow create, update: if request.auth != null && request.auth.uid == userId;
+      
+      // Ninguém deleta usuário pelo app
+      allow delete: if false;
+    }
+
+    // Regra 2: DENÚNCIAS - Qualquer um logado pode criar, ninguém lê
+    match /denuncias/{denunciaId} {
+      // Só cria denúncia se tiver logado e se for sobre outra pessoa
+      allow create: if request.auth != null 
+                    && request.resource.data.denuncianteUid == request.auth.uid
+                    && request.resource.data.denunciadoUid != request.auth.uid;
+      
+      // Ninguém lê, atualiza ou deleta denúncias pelo app. Só Cloud Function
+      allow read, update, delete: if false;
+    }
+    
+    // Regra 3: MATCHES/CONVERSAS - Só os 2 envolvidos leem
+    match /matches/{matchId} {
+      allow read, write: if request.auth != null 
+                         && request.auth.uid in resource.data.membros;
+    }
+    
+    // Regra 4: MENSAGENS - Só quem tá no match escreve/lê
+    match /matches/{matchId}/mensagens/{msgId} {
+      allow read, create: if request.auth != null 
+                          && request.auth.uid in get(/databases/$(database)/documents/matches/$(matchId)).data.membros;
+      allow update, delete: if false; // Ninguém edita ou apaga mensagem
+    }
+
+    // Regra 5: BLOQUEIA TUDO O RESTO
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
