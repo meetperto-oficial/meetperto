@@ -1,1 +1,29 @@
+rules_version = '2';
 
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Regra 1: FOTOS DE PERFIL - Só o dono sobe/apaga, todo mundo logado vê
+    match /fotos_perfil/{userId}/{allPaths=**} {
+      // Qualquer usuário logado pode ver as fotos pra aparecer no app
+      allow read: if request.auth != null;
+      
+      // Só pode enviar se for o próprio usuário e se for imagem < 5MB
+      allow write: if request.auth != null 
+                   && request.auth.uid == userId
+                   && request.resource.size < 5 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*');
+    }
+
+    // Regra 2: FOTOS DE CHAT - Só quem tá no match envia/vê
+    match /fotos_chat/{matchId}/{allPaths=**} {
+      allow read, write: if request.auth != null 
+                         && request.auth.uid in firestore.get(/databases/(default)/documents/matches/$(matchId)).data.membros;
+    }
+    
+    // Regra 3: BLOQUEIA TUDO O RESTO
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
