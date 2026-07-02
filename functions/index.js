@@ -1,75 +1,42 @@
-const functions = require('firebase-functions');
-const admin = require('firebase-admin');
-admin.initializeApp();
-const db = admin.firestore();
+const functions = require('firebase-functions')
+const admin = require('firebase-admin')
+admin.initializeApp()
 
 exports.onNewMessage = functions.firestore
- .document('chats/{chatId}/messages/{messageId}')
- .onCreate(async (snap, context) => {
-    const message = snap.data();
-    const chatId = context.params.chatId;
+  .document('chats/{chatId}/messages/{messageId}')
+  .onCreate(async (snap, context) => {
+    const message = snap.data()
+    const chatId = context.params.chatId
     
-    const lastMsg = await db.collection(`chats/${chatId}/messages`)
-     .where('senderId', '!=', message.senderId)
-     .orderBy('createdAt', 'desc')
-     .limit(1)
-     .get();
+    // Pega a última msg do outro usuário
+    const messagesRef = admin.firestore()
+      .collection(`chats/${chatId}/messages`)
+      .orderBy('timestamp', 'desc')
+      .limit(2)
     
-    if (!lastMsg.empty) {
-      const diffMinutes = (message.createdAt.toDate() - lastMsg.docs[0].data().createdAt.toDate()) / 60000;
+    const msgs = await messagesRef.get()
+    if (msgs.size < 2) return null
+    
+    const lastMsg = msgs.docs[1].data() // penúltima msg
+    
+    // Só conta se for de outro usuário
+    if (lastMsg.senderId === message.senderId) return null
+    
+    const timeDiff = message.timestamp - lastMsg.timestamp
+    const fiveMinutes = 5 * 60 * 1000
+    
+    if (timeDiff <= fiveMinutes) {
+      const userRef = admin.firestore().doc(`users/${message.senderId}`)
+      await userRef.update({
+        fastResponses: admin.firestore.FieldValue.increment(1)
+      })
       
-      if (diffMinutes < 60) {
-        const userRef = db.collection('users').doc(message.senderId);
-        const user = await userRef.get();
-        const currentAvg = user.data().avgResponseTime || 60;
-        const newAvg = (currentAvg + diffMinutes) / 2;
-        const plan = user.data().plan || 'gratis';
-        
-        await userRef.update({ 
-          avgResponseTime: newAvg,
-          fastResponder: newAvg < 60 && plan!== 'gratis'
-        });
+      // Adiciona selo se tiver 10+ respostas rápidas
+      const userDoc = await userRef.get()
+      if (userDoc.data().fastResponses >= 10) {
+        await userRef.update({ badges: admin.firestore.FieldValue.arrayUnion('responde_rapido') })
       }
     }
-  });
-
-// Função: Limite de 10 curtidas + Chat travado
-exports.checkCanLike = functions.https.onCall(async (data, context) => {
-  const uid = context.auth.uid;
-  const user = await db.collection('users').doc(uid).get();
-  const plan = user.data().plan || 'gratis';
-  
-  if (plan === 'gratis') {
-    const today = new Date().toISOString().split('T')[0];
-    const likesToday = await db.collection('likes')
-     .where('userId', '==', uid)
-     .where('date', '==', today)
-     .get();
-      
-    if (likesToday.size >= 10) {
-      throw new functions.https.HttpsError('resource-exhausted', 'Limite de 10 curtidas atingido');
-    }
-    return { canLike: true, remaining: 10 - likesToday.size };
-  }
-  
-  return { canLike: true, remaining: 999 };
-});
-
-exports.checkCanStartChat = functions.https.onCall(async (data, context) => {
-  const { matchId, otherUserId } = data;
-  const uid = context.auth.uid;
-  const user = await db.collection('users').doc(uid).get();
-  
-  if (user.data().plan === 'gratis') {
-    const messages = await db.collection(`chats/${matchId}/messages`)
-     .where('senderId', '==', otherUserId)
-     .limit(1)
-     .get();
-      
-    if (messages.empty) {
-      throw new functions.https.HttpsError('permission-denied', 'Aguardando ela iniciar a conversa');
-    }
-  }
-  
-  return { canChat: true };
-});
+    
+    return null
+  })
