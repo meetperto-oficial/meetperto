@@ -1,80 +1,104 @@
-import React, { useState, useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { StatusBar } from 'expo-status-bar';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState } from 'react'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import { ActivityIndicator, View, StatusBar } from 'react-native'
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from './firebaseConfig'
+import { Colors } from './screens/theme/colors'
 
-// AUTH - CADASTRO
-import Etapa1Cadastro from './src/screens/auth/Etapa1Cadastro';
-import Etapa2Verificacao from './src/screens/auth/Etapa2Verificacao';
-import Etapa3Informacoes from './src/screens/auth/Etapa3Informacoes';
-import Etapa4Fotos from './src/screens/auth/Etapa4Fotos';
-import SelfieLiveness from './src/screens/auth/SelfieLiveness';
-import Etapa5Preferencias from './src/screens/auth/Etapa5Preferencias';
-import Etapa6Termos from './src/screens/auth/Etapa6Termos';
-import Etapa7Finalizar from './src/screens/auth/Etapa7Finalizar';
+// Telas
+import AuthScreen from './screens/AuthScreen'
+import FeedScreen from './screens/FeedScreen'
+import SettingsScreen from './screens/SettingsScreen'
+import PerfilScreen from './screens/PerfilScreen'
+import PlanosScreen from './screens/PlanosScreen'
+import FiltrosScreen from './screens/FiltrosScreen'
+import RadarScreen from './screens/RadarScreen'
+import FilaLinearScreen from './screens/FilaLinearScreen'
 
-// MAIN - APP PRINCIPAL
-import HomeFeed from './src/screens/main/HomeFeed';
-import ChatMatch from './src/screens/main/ChatMatch';
-import ModoRadar from './src/screens/main/ModoRadar';
-import Perfil from './src/screens/main/Perfil';
-
-const Stack = createStackNavigator();
-
-export const CONFIG = {
-  COR_PRINCIPAL: '#FF4458',
-  COR_SECUNDARIA: '#9C27B0',
-  RAIO_MATCH: 5, // km
-};
+const Stack = createStackNavigator()
 
 export default function App() {
-  const [initialRoute, setInitialRoute] = useState(null);
+  const [initializing, setInitializing] = useState(true)
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
-    checkLoginStatus();
-  }, []);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user)
+      if (initializing) setInitializing(false)
+    })
+    return unsubscribe
+  }, [])
 
-  const checkLoginStatus = async () => {
-    try {
-      const userToken = await AsyncStorage.getItem('userToken');
-      if (userToken) {
-        setInitialRoute('HomeFeed');
-      } else {
-        setInitialRoute('Etapa1Cadastro');
-      }
-    } catch (e) {
-      setInitialRoute('Etapa1Cadastro');
-    }
-  };
-
-  if (!initialRoute) {
-    return null; // Loading
+  if (initializing) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', backgroundColor: Colors.background }}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    )
   }
 
   return (
-    <NavigationContainer>
-      <StatusBar style="dark" />
-      <Stack.Navigator 
-        initialRouteName={initialRoute}
-        screenOptions={{ headerShown: false }}
-      >
-        {/* FLUXO DE CADASTRO */}
-        <Stack.Screen name="Etapa1Cadastro" component={Etapa1Cadastro} />
-        <Stack.Screen name="Etapa2Verificacao" component={Etapa2Verificacao} />
-        <Stack.Screen name="Etapa3Informacoes" component={Etapa3Informacoes} />
-        <Stack.Screen name="Etapa4Fotos" component={Etapa4Fotos} />
-        <Stack.Screen name="SelfieLiveness" component={SelfieLiveness} />
-        <Stack.Screen name="Etapa5Preferencias" component={Etapa5Preferencias} />
-        <Stack.Screen name="Etapa6Termos" component={Etapa6Termos} />
-        <Stack.Screen name="Etapa7Finalizar" component={Etapa7Finalizar} />
-
-        {/* APP PRINCIPAL */}
-        <Stack.Screen name="HomeFeed" component={HomeFeed} />
-        <Stack.Screen name="ChatMatch" component={ChatMatch} />
-        <Stack.Screen name="ModoRadar" component={ModoRadar} />
-        <Stack.Screen name="Perfil" component={Perfil} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+    <>
+      <StatusBar barStyle="dark-content" backgroundColor={Colors.background} />
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: Colors.background },
+            headerTintColor: Colors.text,
+            headerTitleStyle: { fontWeight: '700' },
+            headerShadowVisible: false,
+          }}
+        >
+          {user ? (
+            // Rotas logado
+            <>
+              <Stack.Screen 
+                name="Feed" 
+                component={FeedScreen} 
+                options={{ title: 'MeetPerto' }} 
+              />
+              <Stack.Screen 
+                name="Settings" 
+                component={SettingsScreen} 
+                options={{ title: 'Configurações' }} 
+              />
+              <Stack.Screen 
+                name="Perfil" 
+                component={PerfilScreen} 
+                options={{ title: 'Meu Perfil' }} 
+              />
+              <Stack.Screen 
+                name="Planos" 
+                component={PlanosScreen} 
+                options={{ title: 'Planos VIP' }} 
+              />
+              <Stack.Screen 
+                name="Filtros" 
+                component={FiltrosScreen} 
+                options={{ title: 'Filtros' }} 
+              />
+              <Stack.Screen 
+                name="Radar" 
+                component={RadarScreen} 
+                options={{ title: 'Radar' }} 
+              />
+              <Stack.Screen 
+                name="FilaLinear" 
+                component={FilaLinearScreen} 
+                options={{ title: 'Fila' }} 
+              />
+            </>
+          ) : (
+            // Rotas deslogado
+            <Stack.Screen 
+              name="Auth" 
+              component={AuthScreen} 
+              options={{ headerShown: false }} 
+            />
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
+  )
 }
