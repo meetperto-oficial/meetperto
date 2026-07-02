@@ -2,7 +2,7 @@
 
 O amor não mora longe.
 
-App de relacionamentos reais +18 com Chat, Vídeo-call, Stories e Eventos. React Native + Expo pronto pra Play Store.
+App de relacionamentos reais +18 com Chat e Eventos. React Native + Expo pronto pra Play Store.
 
 MIT license
 
@@ -119,6 +119,14 @@ MIT license
 ## ⭐ Avaliações
 
 Sistema de 5 estrelas + campo para avaliações escritas dos usuários
+
+---
+
+## 🚀 Roadmap Futuro
+
+- **Vídeo-chamada segura**: Com moderação em tempo real
+- **Stories 24h**: Compartilhe seu dia com matches
+- **Eventos oficiais MeetPerto**: Encontros organizados pelo app
 
 ---
 
