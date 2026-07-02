@@ -1,16 +1,36 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import { View, Text, FlatList, TouchableOpacity, Alert, ActivityIndicator } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
 import { Colors } from './theme/colors'
 import { db, auth } from '../firebaseConfig'
 import { collection, doc, setDoc, deleteDoc, getDocs, query, where } from 'firebase/firestore'
 
-export default function FeedScreen({ route }) {
+export default function FeedScreen({ navigation, route }) {
   const [profiles, setProfiles] = useState([])
   const [likedIds, setLikedIds] = useState(new Set())
   const [likesToday, setLikesToday] = useState(0)
   const [loading, setLoading] = useState(true)
   const user = auth.currentUser
   const filters = route.params?.filters
+
+  // BOTÕES DO HEADER: Settings + Filtros
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={{ flexDirection: 'row', marginRight: 8 }}>
+          <TouchableOpacity 
+            onPress={() => navigation.navigate('Filtros')}
+            style={{ marginRight: 16 }}
+          >
+            <Ionicons name="options-outline" size={24} color={Colors.text} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
+            <Ionicons name="settings-outline" size={24} color={Colors.text} />
+          </TouchableOpacity>
+        </View>
+      ),
+    })
+  }, [navigation])
 
   useEffect(() => {
     if (user) {
@@ -42,22 +62,19 @@ export default function FeedScreen({ route }) {
     try {
       let q = query(collection(db, 'users'))
 
-      // Filtro de cabelo
-      if (filters?.hairColor && filters.hairColor !== 'Ver todos') {
+      if (filters?.hairColor && filters.hairColor!== 'Ver todos') {
         q = query(q, where('hairColor', '==', filters.hairColor))
       }
-      // Filtro de gênero
-      if (filters?.gender && filters.gender !== 'Ver todos') {
+      if (filters?.gender && filters.gender!== 'Ver todos') {
         q = query(q, where('gender', '==', filters.gender))
       }
 
       const snap = await getDocs(q)
-      let list = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+      let list = snap.docs.map(doc => ({ id: doc.id,...doc.data() }))
       
-      // FILTRA INVISÍVEL + VOCÊ MESMO NO CLIENT-SIDE
       list = list.filter(profile => 
-        profile.id !== user.uid && 
-        profile.invisibleMode !== true
+        profile.id!== user.uid && 
+        profile.invisibleMode!== true
       )
       
       setProfiles(list)
@@ -122,11 +139,23 @@ export default function FeedScreen({ route }) {
           <TouchableOpacity 
             onPress={() => handleLike(item.id)}
             style={{ 
-              backgroundColor: likedIds.has(item.id) ? Colors.primary : Colors.border,
+              backgroundColor: likedIds.has(item.id)? Colors.primary : Colors.border,
               padding: 12,
               borderRadius: 8,
               alignItems: 'center'
             }}
           >
-            <Text style={{ color: likedIds.has(item.id) ? Colors.textInverse : Colors.text, fontWeight: '600' }}>
-              {likedIds.has(item.id) ? 'Curtido'
+            <Text style={{ color: likedIds.has(item.id)? Colors.textInverse : Colors.text, fontWeight: '600' }}>
+              {likedIds.has(item.id)? 'Curtido' : 'Curtir'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
+      ListEmptyComponent={
+        <Text style={{ textAlign: 'center', marginTop: 40, color: Colors.textLight }}>
+          Nenhum perfil encontrado
+        </Text>
+      }
+    />
+  )
+}
