@@ -28,6 +28,7 @@ MIT license
 - **Denúncia rápida** em 1 clique
 - **Bloqueio automático** de usuários com muitas denúncias
 - **Conexão HTTPS** em todo o aplicativo
+- **Verificação extra por Instagram**: Conecte seu perfil e ganhe selo azul. Aumenta matches em 40%
 
 ---
 
@@ -44,6 +45,8 @@ MIT license
 - **Ver quem curtiu você**: Sem blur, lista completa + notificação
 - **5 Super Likes por mês**
 - **Chat livre após match**: Você pode iniciar a conversa sem esperar
+- **Desfazer última curtida**: Curtiu errado? Volte 1 perfil
+- **Selo Responde Rápido**: Responda em 1h e ganhe destaque no feed
 - **Renovação automática mensal**
 
 ### **Plano Premium - R$ 79,90 a cada 3 meses**
@@ -56,6 +59,7 @@ MIT license
 ### **Plano VIP - R$ 149,90 a cada 6 meses**
 - Tudo do Premium
 - **30 Super Likes por mês**
+- **Modo Invisível**: Navegue sem aparecer em "quem te visitou"
 - **Exclusivo**: 1 Boost de perfil por semana + Selo VIP no perfil
 - **Filtros exclusivos**: Altura e Escolaridade
 
@@ -113,6 +117,7 @@ MIT license
 
 - **Notificações inteligentes**: "Alguém curtiu você"
 - **Gatilho de volta**: "Volte para ver quem entrou perto de você"
+- **Notificação de escassez**: "3 pessoas perto de você estão online agora. Só hoje!"
 
 ---
 
