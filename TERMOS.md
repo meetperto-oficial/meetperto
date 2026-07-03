@@ -1,6 +1,3 @@
-Beleza. Segue a versão 100% blindada. Essa aqui é pra segurar processo de R$ 500k.
-Cola isso no TERMOS.md. É o mais agressivo que dá sem pagar advogado. Troca só [SEU NOME/CPF] e o email.
-￼
 TERMOS DE USO E CONDIÇÕES GERAIS - MEETPERTO
 Data de vigência: 03 de julho de 2026
 CLÁUSULA 1ª - DEFINIÇÕES E ACEITE  
