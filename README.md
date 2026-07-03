@@ -1,181 +1,156 @@
+<div align="center">
+
 # MeetPerto 💕
 
-O amor não mora longe.
+**O amor não mora longe.**
 
-App de relacionamentos reais +18 com Chat e Eventos. React Native + Expo pronto pra Play Store.
+App de relacionamentos +18 com Chat por proximidade em tempo real.
 
-MIT license
+[![React Native](https://img.shields.io/badge/React_Native-0.74.5-61DAFB?style=for-the-badge&logo=react)](https://reactnative.dev/)
+[![Expo](https://img.shields.io/badge/Expo-51.0.28-000020?style=for-the-badge&logo=expo)](https://expo.dev/)
+[![Firebase](https://img.shields.io/badge/Firebase-10.12.4-FFCA28?style=for-the-badge&logo=firebase)](https://firebase.google.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3.3-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
----
+[Baixar na Play Store](#) • [Baixar na App Store](#) • [Política de Privacidade](./PRIVACIDADE.md) • [Termos de Uso](./TERMOS.md) • [Reportar Bug](https://github.com/eliasroberto26-arch/MeetPerto/issues)
 
-## 📱 Cadastro Seguro em 6 Etapas
-
-1. **Escolha como entrar**: E-mail + senha ou Número de telefone
-2. **Verificação**: Código de 6 dígitos por SMS ou link por e-mail
-3. **Informações básicas**: Nome, Data de nascimento 18+, Gênero, Quem deseja conhecer, Cidade, Fotos até 7
-4. **Localização**: Usada apenas para encontrar pessoas próximas. Sua posição exata nunca será exibida
-5. **Termos**: Aceite dos Termos de Uso e Política de Privacidade
-6. **Proteção**: Senhas com hash Argon2/bcrypt, HTTPS total, tokens com expiração, limite de tentativas
-
-**Fluxo rápido**: Google/Apple/Telefone/E-mail → Código → Nome/Data → Fotos → Selfie opcional com liveness → Localização → Entrou
+</div>
 
 ---
 
-## 🛡️ Sistema Anti-Fake e Segurança Social
+## 📸 Screenshots
 
-- **Detecção de múltiplas contas** por dispositivo/IP
-- **Verificação de selfie com liveness** para selo de perfil verificado
-- **Denúncia rápida** em 1 clique
-- **Bloqueio automático** de usuários com muitas denúncias
-- **Conexão HTTPS** em todo o aplicativo
-- **Verificação extra por Instagram**: Conecte seu perfil e ganhe selo azul. Aumenta matches em 40%
+<div align="center">
+<img src="./assets/screenshots/feed.png" width="200" alt="Feed por proximidade">
+<img src="./assets/screenshots/chat.png" width="200" alt="Chat em tempo real">
+<img src="./assets/screenshots/perfil.png" width="200" alt="Perfil verificado">
+<img src="./assets/screenshots/filtros.png" width="200" alt="Filtros de busca">
+</div>
 
 ---
 
-## 💰 Planos
+## 📱 Como Funciona
+
+### **Cadastro Seguro em 6 Etapas**
+1. **Login**: E-mail + senha ou Telefone
+2. **Verificação**: Código SMS 6 dígitos ou link e-mail
+3. **Perfil**: Nome, Data nascimento 18+, Gênero, Cidade, Fotos até 7
+4. **Localização**: Usada só pra distância. Posição exata nunca exibida.
+5. **Termos**: Aceite obrigatório de Termos + Política de Privacidade
+6. **Segurança**: Senhas Argon2, HTTPS total, tokens com expiração, rate limit
+
+**Fluxo**: Google/Apple/Telefone/E-mail → Código → Nome/Data → Fotos → Selfie liveness opcional → Localização → App
+
+---
+
+## 🛡️ Segurança e Anti-Fake
+
+| Recurso | Descrição |
+| --- | --- |
+| **Verificação de Selfie** | Liveness check opcional. Gera selo de perfil verificado. |
+| **Detecção Multi-conta** | Bloqueio por dispositivo/IP pra evitar fakes. |
+| **Denúncia 1-Clique** | Botão em todo perfil. Moderação em até 24h. |
+| **Bloqueio Automático** | Usuário com 3+ denúncias válidas é suspenso. |
+| **Criptografia** | HTTPS/TLS 1.3 em todo tráfego. Senhas Argon2id. |
+| **Distância Aproximada** | Exibe "A menos de 500m". Nunca coordenadas exatas. |
+| **Verificação Instagram** | Conecte seu perfil e ganhe selo azul. +40% matches. |
+
+---
+
+## 💰 Planos e Preços
 
 ### **Plano Grátis - R$ 0**
-- **10 curtidas por dia**: Zera à meia-noite
-- **Quem curtiu você**: 100% borrado com cadeado 🔒 + contador "X pessoas te curtiram"
-- **Chat após match**: Bloqueado até a outra pessoa mandar a primeira mensagem. Se ela puxar papo, o chat libera pra você responder grátis
-- **Super Like**: Apenas comprando avulso
+- **10 curtidas/dia**: Reseta 00:00 BRT
+- **Quem curtiu você**: 100% borrado + contador "X pessoas curtiram você"
+- **Chat após match**: Bloqueado. Libera se a outra pessoa mandar a primeira mensagem
+- **Super Like**: Compra avulsa R$ 0,50
 
 ### **Plano Essencial - R$ 29,90/mês**
 - **Curtidas ilimitadas**
-- **Ver quem curtiu você**: Sem blur, lista completa + notificação
-- **5 Super Likes por mês**
-- **Chat livre após match**: Você pode iniciar a conversa sem esperar
-- **Desfazer última curtida**: Curtiu errado? Volte 1 perfil
-- **Selo Responde Rápido**: Responda em 1h e ganhe destaque no feed
-- **Renovação automática mensal**
+- **Ver quem curtiu**: Lista completa sem blur + notificação
+- **5 Super Likes/mês**
+- **Chat livre**: Você pode iniciar a conversa após o match
+- **Desfazer curtida**: Volte 1 perfil
+- **Selo Responde Rápido**: Destaque se responder em < 1h
 
-### **Plano Premium - R$ 79,90 a cada 3 meses**
-- Tudo do Essencial
-- **15 Super Likes por mês**
-- **Exclusivo**: Modo Radar Comercial + Match de Caminhos Cruzados 2.0
-- **Boost**: Perfil destacado 1x por semana
+### **Plano Premium - R$ 79,90/trimestre**
+- Tudo do Essencial +
+- **15 Super Likes/mês**
+- **1 Boost/semana**: Perfil em destaque
 - **Filtros exclusivos**: Altura e Escolaridade
+- **Modo Radar Comercial**: Veja só quem está no mesmo local - shoppings, shows
+- **Match Caminhos Cruzados 2.0**: Aviso: "Compatível a 200m de você agora"
 
-### **Plano VIP - R$ 149,90 a cada 6 meses**
-- Tudo do Premium
-- **30 Super Likes por mês**
-- **Modo Invisível**: Navegue sem aparecer em "quem te visitou"
-- **Exclusivo**: 1 Boost de perfil por semana + Selo VIP no perfil
-- **Filtros exclusivos**: Altura e Escolaridade
+### **Plano VIP - R$ 149,90/semestre**
+- Tudo do Premium +
+- **30 Super Likes/mês**
+- **Modo Invisível**: Navegue sem aparecer em "quem visitou"
+- **Selo VIP**: Destaque dourado no perfil
+- **Suporte prioritário**
 
-**Super Like avulso**: R$ 0,50 cada  
-**Pacotes**: 5 por R$ 1,99 | 15 por R$ 4,99 | 30 por R$ 8,99
+**Avulsos**: Super Like R$ 0,50 | Pacote 5 por R$ 1,99 | 15 por R$ 4,99 | 30 por R$ 8,99
 
----
-
-## ✨ Como funciona
-
-Cadastro novo já começa no Plano Grátis com 10 curtidas/dia.
-
-**No Grátis:**
-1. **Curtidas**: 10 por dia. Acabou, só amanhã ou assina Essencial.
-2. **Aba "Curtiram você"**: Fotos totalmente borradas + contador "12 pessoas curtiram você".
-3. **Botão principal**: "Ver quem é por R$ 29,90" → Plano Essencial
-4. **Botão secundário**: "Enviar Super Like por R$ 0,50" → Compra avulsa
-5. **Chat após match**: No Grátis, fica com aviso "Aguardando ela iniciar a conversa". Se ela mandar msg, o chat libera e você responde grátis. Se você quiser falar primeiro, precisa ser Essencial.
-
-**Chat após match**: Sempre gratuito em todos os planos.
-
-**Indique e Ganhe**: Convide 3 amigos pelo WhatsApp e ganhe +24h de Essencial ou +20 curtidas extras.
+**Indique e Ganhe**: Convide 3 amigos e ganhe 24h de Essencial ou +20 curtidas.
 
 ---
 
 ## 🔍 Filtros de Busca
 
-- **Gênero**: Homem, Mulher ou Ambos
-- **Idade**: 18 a 70 anos - use o slider para definir o intervalo
-- **Tom de cabelo**: Loiro(a), Ruivo(a), Castanho, Preto ou Ver todos
-- **Buscando**: Namoro sério, Algo casual, Amizade ou Ver todos
-- **Ordem do Feed**: Sempre do usuário mais próximo para o mais distante
+| Filtro | Grátis | Essencial | Premium/VIP |
+| --- | --- | --- | --- |
+| **Gênero** | ✅ | ✅ | ✅ |
+| **Idade 18-70** | ✅ | ✅ | ✅ |
+| **Tom de cabelo** | ✅ | ✅ | ✅ |
+| **Buscando** | ✅ | ✅ | ✅ |
+| **Altura** | ❌ | ❌ | ✅ |
+| **Escolaridade** | ❌ | ❌ | ✅ |
 
-**Exclusivo Premium/VIP**: Filtro de Altura e Filtro de Escolaridade
-
----
-
-## 🔋 Privacidade e Segurança
-
-- **Bateria**: Localização registrada apenas quando o app é aberto ou via geofencing
-- **Segurança**: Distâncias por aproximação: "A menos de 500m" - nunca exata
-- **Fim da Fila**: Notificação automática quando alguém novo entrar no seu raio
-
----
-
-## 🎯 Mecânicas Exclusivas - Planos Premium e VIP
-
-1. **Modo Radar Comercial**: Ative em shoppings, baladas, shows. O app cria uma "cúpula" e mostra só quem está no mesmo local
-2. **Match de Caminhos Cruzados 2.0**: Avisa em tempo real: "Alguém compatível acabou de entrar num raio de 200m"
-3. **Fila por Proximidade Linear**: Feed vertical simples: Pessoa A a 50m, Pessoa B a 120m, Pessoa C a 300m
-
----
-
-## 🔔 Funil de Retenção
-
-- **Notificações inteligentes**: "Alguém curtiu você"
-- **Gatilho de volta**: "Volte para ver quem entrou perto de você"
-- **Notificação de escassez**: "3 pessoas perto de você estão online agora. Só hoje!"
-
----
-
-## ⭐ Avaliações
-
-Sistema de 5 estrelas + campo para avaliações escritas dos usuários
-
----
-
-## 🚀 Roadmap Futuro
-
-- **Vídeo-chamada segura**: Com moderação em tempo real
-- **Stories 24h**: Compartilhe seu dia com matches
-- **Eventos oficiais MeetPerto**: Encontros organizados pelo app
+**Ordem do Feed**: Sempre do mais próximo pro mais distante. Sem algoritmo de ELO.
 
 ---
 
 ## 🛠️ Stack Técnica
 
-| Tech | Versão | Motivo |
+| Tecnologia | Versão | Decisão de Arquitetura |
 | --- | --- | --- |
-| **React Native** | Expo SDK 51+ | Hot reload, build fácil iOS/Android |
-| **Firebase** | v10+ | Auth, Firestore, Storage, Functions |
-| **Storage Rules** | v2 | Anti-spam 5min, validação MIME, limite 2MB |
-| **AsyncStorage** | - | Persistência de login offline |
+| **React Native** | Expo SDK 51+ | OTA updates, build iOS sem Mac, DX superior |
+| **Firebase** | v10+ | Auth + Firestore real-time + Storage + Functions |
+| **TypeScript** | 5.3.3 | Type safety pra evitar bugs em produção |
+| **AsyncStorage** | - | Persistência de sessão offline |
+| **Expo SecureStore** | - | Tokens sensíveis criptografados no device |
 
-### **Features Técnicas Implementadas**
+### **Features de Engenharia Implementadas**
 
-1. **Upload Foto Perfil Nível Diretor** 
-   - Compressão automática 800px JPEG 70%
-   - Limite 2MB com validação client + server
-   - Anti-spam: 1 upload a cada 5 minutos via `ultimaFotoPerfil`
-   - Deleta foto antiga do Storage automaticamente - LGPD
-   - Progress bar em tempo real
+1. **Upload de Foto com Compliance LGPD**
+   - Compressão client: 800px JPEG 70% via `expo-image-manipulator`
+   - Validação server: `storage.rules` rejeita >2MB e MIME inválido
+   - Anti-spam: `request.time > resource.metadata.ultimaFotoPerfil + duration.value(5, 'm')`
+   - Deleção automática da foto antiga no Storage ao enviar nova
    - Path: `fotos_perfil/{uid}/{timestamp}.jpg`
 
-2. **Tela de Perfil Completa**
-   - Skeleton loading
-   - Pull-to-refresh 
-   - Verificação `emailVerified` obrigatória
-   - Remover foto + Logout + Deletar conta LGPD
-   - Trata erro `403 storage/unauthorized` das rules
+2. **Arquitetura de Segurança**
+   - **Firestore Rules**: Usuário só lê/escreve próprio doc. `matches` só se `uid` está no array
+   - **Firebase Auth**: `initializeAuth` com `ReactNativeAsyncStorage` pra persistência
+   - **Singleton Pattern**: Evita re-init do Firebase no hot reload do Metro
+   - **Env Validation**: App não boota se `FIREBASE_API_KEY` não existir
 
-3. **Firebase Config Blindado**
-   - Validação de `.env` no boot
-   - Singleton pattern pra hot reload
-   - `initializeAuth` com `ReactNativeAsyncStorage`
-   - Analytics opcional
+3. **Performance e Bateria**
+   - **Geolocalização**: `getCurrentPosition` só no boot. Background via Geofencing
+   - **Paginação**: Firestore `limit(20)` + `startAfter` no feed
+   - **Imagens**: `expo-image` com cache disk + memory
 
 ---
 
-## ⚙️ Setup Local - Devs
+## ⚙️ Setup Local
+
+### **Pré-requisitos**
+- Node.js 18+
+- Expo CLI: `npm i -g expo-cli`
+- Conta Firebase com projeto criado
 
 ### **1. Instalação**
-
 ```bash
-git clone https://github.com/seuuser/meetperto.git
-cd meetperto
+git clone https://github.com/eliasroberto26-arch/MeetPerto.git
+cd MeetPerto
 npm install
-npx expo install firebase react-native-safe-area-context @react-native-async-storage/async-storage expo-image-picker expo-image-manipulator
-npm install @expo/vector-icons
+npx expo install firebase @react-native-async-storage/async-storage expo-image-picker expo-image-manipulator expo-secure-store expo-location
