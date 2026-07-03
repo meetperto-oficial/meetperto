@@ -1,8 +1,9 @@
-// firebaseConfig.js - PROJETO MEETPERTO2112
+// firebaseConfig.js - VERSÃO REACT NATIVE/EXPO
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAFUucTYq7ZO0ki2UO83vtOvcjLgPEMp9A",
@@ -15,8 +16,11 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-export const auth = getAuth(app);
+// Auth com persistência pra não deslogar sozinho
+export const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage)
+});
+
 export const db = getFirestore(app);
 export const storage = getStorage(app);
-
 export default app;
