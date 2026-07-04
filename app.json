@@ -6,13 +6,15 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
+    "scheme": "meetperto",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#FF4B8B"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/ec7aa273-0367-4788-bb19-56054fc14529"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -20,7 +22,17 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.meetperto.app",
-      "buildNumber": "2.0.0"
+      "buildNumber": "2.0.0",
+      "config": {
+        "usesNonExemptEncryption": false
+      },
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "O MeetPerto usa sua localização para mostrar pessoas próximas a você.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "O MeetPerto usa sua localização em segundo plano para te avisar sobre matches próximos.",
+        "NSCameraUsageDescription": "Precisamos da câmera para você adicionar fotos ao seu perfil.",
+        "NSPhotoLibraryUsageDescription": "Precisamos da galeria para você escolher fotos de perfil.",
+        "NSUserTrackingUsageDescription": "Este identificador será usado para entregar anúncios personalizados e métricas."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -29,11 +41,13 @@
       },
       "package": "com.meetperto.app",
       "versionCode": 2,
-      "splash": {
-        "image": "./assets/splash.png",
-        "resizeMode": "contain",
-        "backgroundColor": "#FF4B8B"
-      }
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -48,12 +62,28 @@
           "resizeMode": "contain",
           "backgroundColor": "#FF4B8B"
         }
-      ]
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "O MeetPerto usa sua localização para mostrar pessoas próximas a você."
+        }
+      ],
+      "expo-secure-store"
     ],
     "extra": {
       "eas": {
-        "projectId": "a1b2c3d4-e5f6-7890-abcd-1234567890ab"
+        "projectId": "ec7aa273-0367-4788-bb19-56054fc14529"
       }
+    },
+    "sdkVersion": "54.0.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "androidStatusBar": {
+      "backgroundColor": "#FF4B8B",
+      "barStyle": "light-content"
     }
   }
 }
