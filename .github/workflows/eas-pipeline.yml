@@ -1,1 +1,99 @@
+name: EAS Build + Submit
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    branches: [main]
 
+jobs:
+  lint-test:
+    name: Lint & Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: ESLint
+        run: npx eslint. --ext.js,.jsx,.ts,.tsx
+      
+      - name: Jest
+        run: npm test -- --coverage
+      
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  build-android-preview:
+    name: Build Android Preview APK
+    needs: lint-test
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build APK on EAS
+        run: eas build --platform android --profile preview --non-interactive
+      
+      - name: Comment APK link
+        uses: expo/expo-github-action/preview-comment@v8
+        with:
+          channel: pr-${{ github.event.number }}
+
+  build-production:
+    name: Build Production
+    needs: lint-test
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+      
+      - name: Setup EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build iOS + Android
+        run: eas build --platform all --profile production --non-interactive --auto-submit
+      
+      - name: EAS Update
+        run: eas update --branch production --message "Commit ${{ github.sha }}"
