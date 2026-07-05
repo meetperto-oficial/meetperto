@@ -16,13 +16,14 @@
     ],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.meetperto.app",
-      "buildNumber": "1",
+      "bundleIdentifier": "com.eliasroberto26.meetperto",
+      "buildNumber": "2",
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "MeetPerto usa sua localização para mostrar pessoas próximas a você.",
-        "NSCameraUsageDescription": "Precisamos da câmera para você tirar fotos do perfil e verificar sua conta.",
-        "NSPhotoLibraryUsageDescription": "Precisamos acessar suas fotos para você escolher imagens do perfil.",
-        "NSMicrophoneUsageDescription": "Precisamos do microfone para você enviar áudios no chat."
+        "NSLocationWhenInUseUsageDescription": "O MeetPerto usa sua localização para mostrar pessoas e eventos próximos a você.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "O MeetPerto usa sua localização em segundo plano para te notificar sobre eventos perto de você.",
+        "NSCameraUsageDescription": "Permita o acesso à câmera para tirar sua foto de perfil.",
+        "NSPhotoLibraryUsageDescription": "Permita o acesso à galeria para escolher sua foto de perfil.",
+        "NSMicrophoneUsageDescription": "Permita o acesso ao microfone para enviar áudios no chat."
       },
       "config": {
         "usesNonExemptEncryption": false
@@ -33,14 +34,14 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#000020"
       },
-      "package": "com.meetperto.app",
-      "versionCode": 1,
+      "package": "com.eliasroberto26.meetperto",
+      "versionCode": 2,
       "permissions": [
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
         "CAMERA",
         "READ_EXTERNAL_STORAGE",
-        "WRITE_EXTERNAL_STORAGE",
         "RECORD_AUDIO"
       ],
       "googleServicesFile": "./google-services.json"
@@ -52,26 +53,26 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "MeetPerto usa sua localização para encontrar matches perto de você."
+          "locationAlwaysAndWhenInUsePermission": "O MeetPerto usa sua localização para mostrar pessoas e eventos próximos a você."
         }
       ],
       [
         "expo-image-picker",
         {
-          "photosPermission": "Permita acesso às fotos para escolher imagens do seu perfil.",
-          "cameraPermission": "Permita acesso à câmera para tirar fotos do seu perfil."
+          "photosPermission": "Permita acesso à galeria para escolher sua foto de perfil.",
+          "cameraPermission": "Permita acesso à câmera para tirar sua foto de perfil."
         }
       ],
       "expo-secure-store"
     ],
-    "extra": {}
+    "extra": {
       "eas": {
-        "projectId": "a1b2c3d4-eSf6-7890-abcd-123456789"
+        "projectId": "COLE_SEU_PROJECT_ID_AQUI"
       }
     },
     "owner": "eliasroberto26-arch",
     "updates": {
-      "url": "https://u.expo.dev/a1b2c3d4-eSf6-7890-abcd-123456789"
+      "url": "https://u.expo.dev/COLE_SEU_PROJECT_ID_AQUI"
     },
     "runtimeVersion": {
       "policy": "sdkVersion"
