@@ -64,7 +64,7 @@
       ],
       "expo-secure-store"
     ],
-    "extra": {
+    "extra": {}
       "eas": {
         "projectId": "a1b2c3d4-eSf6-7890-abcd-123456789"
       }
