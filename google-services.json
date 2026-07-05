@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "525891276454",
+    "project_id": "meetperto2112",
+    "storage_bucket": "meetperto2112.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:525891276454:android:f0b90bc30bad87608b2e67",
+        "android_client_info": {
+          "package_name": "com.eliasroberto26.meetperto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAc4m2i2j-QshDfOOkGlomHXn5p59DD92Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
