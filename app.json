@@ -23,10 +23,20 @@
         "NSLocationAlwaysAndWhenInUseUsageDescription": "O MeetPerto usa sua localização em segundo plano para te notificar sobre eventos perto de você.",
         "NSCameraUsageDescription": "Permita o acesso à câmera para tirar sua foto de perfil.",
         "NSPhotoLibraryUsageDescription": "Permita o acesso à galeria para escolher sua foto de perfil.",
-        "NSMicrophoneUsageDescription": "Permita o acesso ao microfone para enviar áudios no chat."
+        "NSMicrophoneUsageDescription": "Permita o acesso ao microfone para enviar áudios no chat.",
+        "UIBackgroundModes": [
+          "location",
+          "fetch",
+          "remote-notification"
+        ]
       },
       "config": {
         "usesNonExemptEncryption": false
+      },
+      "entitlements": {
+        "com.apple.developer.applesignin": [
+          "Default"
+        ]
       }
     },
     "android": {
@@ -41,9 +51,28 @@
         "ACCESS_COARSE_LOCATION",
         "ACCESS_BACKGROUND_LOCATION",
         "CAMERA",
-        "RECORD_AUDIO"
+        "RECORD_AUDIO",
+        "VIBRATE",
+        "RECEIVE_BOOT_COMPLETED"
       ],
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "meetperto.app",
+              "pathPrefix": "/link"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -52,7 +81,10 @@
       [
         "expo-location",
         {
-          "locationAlwaysAndWhenInUsePermission": "O MeetPerto usa sua localização para mostrar pessoas e eventos próximos a você."
+          "locationAlwaysAndWhenInUsePermission": "O MeetPerto usa sua localização para mostrar pessoas e eventos próximos a você.",
+          "locationAlwaysPermission": "O MeetPerto usa sua localização em segundo plano para te notificar sobre eventos perto de você.",
+          "isIosBackgroundLocationEnabled": true,
+          "isAndroidBackgroundLocationEnabled": true
         }
       ],
       [
@@ -62,12 +94,31 @@
           "cameraPermission": "Permita acesso à câmera para tirar sua foto de perfil."
         }
       ],
-      "expo-secure-store"
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#000020",
+          "sounds": [
+            "./assets/notification.wav"
+          ]
+        }
+      ],
+      "expo-secure-store",
+      "expo-apple-authentication"
     ],
-    "extra": {},
+    "extra": {
+      "eas": {
+        "projectId": "f0070775-b1f8-4ec6-8e81-a1472a8d9a7d"
+      }
+    },
     "owner": "eliasroberto26-arch",
+    "updates": {
+      "url": "https://u.expo.dev/f0070775-b1f8-4ec6-8e81-a1472a8d9a7d"
+    },
     "runtimeVersion": {
-      "policy": "sdkVersion"
-    }
+      "policy": "appVersion"
+    },
+    "jsEngine": "hermes"
   }
 }
