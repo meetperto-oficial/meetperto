@@ -2,7 +2,7 @@
   "expo": {
     "name": "MeetPerto",
     "slug": "meetperto",
-    "owner": "meetpertoapp-droid",
+    "owner": "meetperto-oficial",
     "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -17,7 +17,7 @@
     ],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.meetpertoappdroid.meetperto",
+      "bundleIdentifier": "com.meetperto.oficial.meetperto",
       "buildNumber": "2",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "O MeetPerto usa sua localização para mostrar pessoas e eventos próximos a você.",
@@ -113,7 +113,7 @@
         "projectId": "f0070775-b1f8-4ec6-8e81-a1472a8d9a7d"
       }
     },
-    "owner": "meetpertoapp-droid",
+    "owner": "meetperto-oficial",
     "updates": {
       "url": "https://u.expo.dev/f0070775-b1f8-4ec6-8e81-a1472a8d9a7d"
     },
