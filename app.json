@@ -45,7 +45,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#000020"
       },
-      "package": "com.meetpertoappdroid.meetperto",
+      "package": "com.meetperto.oficial.meetperto",
       "versionCode": 2,
       "permissions": [
         "ACCESS_FINE_LOCATION",
@@ -113,7 +113,6 @@
         "projectId": "f0070775-b1f8-4ec6-8e81-a1472a8d9a7d"
       }
     },
-    "owner": "meetperto-oficial",
     "updates": {
       "url": "https://u.expo.dev/f0070775-b1f8-4ec6-8e81-a1472a8d9a7d"
     },
