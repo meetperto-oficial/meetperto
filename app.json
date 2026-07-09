@@ -2,77 +2,37 @@
   "expo": {
     "name": "MeetPerto",
     "slug": "meetperto",
-    "owner": "meetperto-oficial",
     "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#000020"
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": false,
+      "supportsTablet": true,
       "bundleIdentifier": "com.meetperto.oficial.meetperto",
-      "buildNumber": "2",
-      "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "O MeetPerto usa sua localização para mostrar pessoas e eventos próximos a você.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "O MeetPerto usa sua localização em segundo plano para te notificar sobre eventos perto de você.",
-        "NSCameraUsageDescription": "Permita o acesso à câmera para tirar sua foto de perfil.",
-        "NSPhotoLibraryUsageDescription": "Permita o acesso à galeria para escolher sua foto de perfil.",
-        "NSMicrophoneUsageDescription": "Permita o acesso ao microfone para enviar áudios no chat.",
-        "UIBackgroundModes": [
-          "location",
-          "fetch",
-          "remote-notification"
-        ]
-      },
-      "config": {
-        "usesNonExemptEncryption": false
-      },
-      "entitlements": {
-        "com.apple.developer.applesignin": [
-          "Default"
-        ]
-      }
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#000020"
+        "backgroundColor": "#ffffff"
       },
       "package": "com.meetperto.oficial.meetperto",
       "versionCode": 2,
       "permissions": [
-        "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION",
-        "ACCESS_BACKGROUND_LOCATION",
         "CAMERA",
-        "RECORD_AUDIO",
-        "VIBRATE",
-        "RECEIVE_BOOT_COMPLETED"
-      ],
-      "googleServicesFile": "./google-services.json",
-      "intentFilters": [
-        {
-          "action": "VIEW",
-          "autoVerify": true,
-          "data": [
-            {
-              "scheme": "https",
-              "host": "meetperto.app",
-              "pathPrefix": "/link"
-            }
-          ],
-          "category": [
-            "BROWSABLE",
-            "DEFAULT"
-          ]
-        }
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
       ]
     },
     "web": {
@@ -80,45 +40,12 @@
     },
     "plugins": [
       [
-        "expo-location",
-        {
-          "locationAlwaysAndWhenInUsePermission": "O MeetPerto usa sua localização para mostrar pessoas e eventos próximos a você.",
-          "locationAlwaysPermission": "O MeetPerto usa sua localização em segundo plano para te notificar sobre eventos perto de você.",
-          "isIosBackgroundLocationEnabled": true,
-          "isAndroidBackgroundLocationEnabled": true
-        }
-      ],
-      [
         "expo-image-picker",
         {
-          "photosPermission": "Permita acesso à galeria para escolher sua foto de perfil.",
-          "cameraPermission": "Permita acesso à câmera para tirar sua foto de perfil."
+          "photosPermission": "O MeetPerto precisa acessar suas fotos para você escolher uma imagem de perfil.",
+          "cameraPermission": "O MeetPerto precisa acessar sua câmera para tirar uma foto de perfil."
         }
-      ],
-      [
-        "expo-notifications",
-        {
-          "icon": "./assets/notification-icon.png",
-          "color": "#000020",
-          "sounds": [
-            "./assets/notification.wav"
-          ]
-        }
-      ],
-      "expo-secure-store",
-      "expo-apple-authentication"
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "f0070775-b1f8-4ec6-8e81-a1472a8d9a7d"
-      }
-    },
-    "updates": {
-      "url": "https://u.expo.dev/f0070775-b1f8-4ec6-8e81-a1472a8d9a7d"
-    },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
-    "jsEngine": "hermes"
+      ]
+    ]
   }
 }
