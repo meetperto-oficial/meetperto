@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Meet Perto",
-    "slug": "encontro-app",
+    "slug": "meetperto",
     "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
