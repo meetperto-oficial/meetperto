@@ -22,7 +22,8 @@
         "NSPhotoLibraryUsageDescription": "O Meet Perto usa sua galeria para você escolher uma foto de perfil.",
         "NSCameraUsageDescription": "O Meet Perto usa a câmera para você tirar uma foto de perfil.",
         "NSMicrophoneUsageDescription": "Permissão de microfone para vídeos no perfil.",
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "UIRequiresFullScreen": true
       }
     },
     "android": {
@@ -35,8 +36,11 @@
       "permissions": [
         "CAMERA",
         "READ_EXTERNAL_STORAGE",
-        "WRITE_EXTERNAL_STORAGE"
-      ]
+        "WRITE_EXTERNAL_STORAGE",
+        "READ_MEDIA_IMAGES",
+        "READ_MEDIA_VIDEO"
+      ],
+      "softwareKeyboardLayoutMode": "pan"
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -50,7 +54,19 @@
           "cameraPermission": "O Meet Perto acessa sua câmera para você tirar uma foto de perfil."
         }
       ],
-      "expo-build-properties"
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0"
+          },
+          "ios": {
+            "deploymentTarget": "13.4"
+          }
+        }
+      ]
     ],
     "extra": {
       "eas": {
