@@ -22,6 +22,7 @@
         "NSPhotoLibraryUsageDescription": "O Meet Perto usa sua galeria para você escolher uma foto de perfil.",
         "NSCameraUsageDescription": "O Meet Perto usa a câmera para você tirar uma foto de perfil.",
         "NSMicrophoneUsageDescription": "Permissão de microfone para vídeos no perfil.",
+        "NSLocationWhenInUseUsageDescription": "O Meet Perto usa sua localização para mostrar pessoas próximas a você.",
         "ITSAppUsesNonExemptEncryption": false,
         "UIRequiresFullScreen": true
       }
@@ -38,7 +39,9 @@
         "READ_EXTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE",
         "READ_MEDIA_IMAGES",
-        "READ_MEDIA_VIDEO"
+        "READ_MEDIA_VIDEO",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
       ],
       "softwareKeyboardLayoutMode": "pan"
     },
@@ -52,6 +55,12 @@
         {
           "photosPermission": "O Meet Perto acessa suas fotos para você escolher uma imagem de perfil.",
           "cameraPermission": "O Meet Perto acessa sua câmera para você tirar uma foto de perfil."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "O Meet Perto usa sua localização para mostrar pessoas próximas a você."
         }
       ],
       [
