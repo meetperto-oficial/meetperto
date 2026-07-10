@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "MeetPerto",
-    "slug": "meetperto",
+    "name": "Meet Perto",
+    "slug": "encontro-app",
     "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -9,25 +9,28 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
+      "backgroundColor": "#FFFFFF"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.meetperto.oficial.meetperto",
-      "buildNumber": "2"
+      "bundleIdentifier": "com.meetperto.encontroapp",
+      "buildNumber": "2",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "O Meet Perto usa sua galeria para você escolher uma foto de perfil.",
+        "NSCameraUsageDescription": "O Meet Perto usa a câmera para você tirar uma foto de perfil.",
+        "NSMicrophoneUsageDescription": "Permissão de microfone para vídeos no perfil.",
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#FFFFFF"
       },
-      "package": "com.meetperto.oficial.meetperto",
+      "package": "com.meetperto.encontroapp",
       "versionCode": 2,
       "permissions": [
         "CAMERA",
@@ -36,16 +39,24 @@
       ]
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     },
     "plugins": [
       [
         "expo-image-picker",
         {
-          "photosPermission": "O MeetPerto precisa acessar suas fotos para você escolher uma imagem de perfil.",
-          "cameraPermission": "O MeetPerto precisa acessar sua câmera para tirar uma foto de perfil."
+          "photosPermission": "O Meet Perto acessa suas fotos para você escolher uma imagem de perfil.",
+          "cameraPermission": "O Meet Perto acessa sua câmera para você tirar uma foto de perfil."
         }
-      ]
-    ]
+      ],
+      "expo-build-properties"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "0bd9f3bd-8ed4-4db8-b6db-441e9c2be1cd"
+      }
+    },
+    "owner": "meetperto-oficial"
   }
 }
