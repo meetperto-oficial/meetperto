@@ -10,10 +10,10 @@
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
-    },
+    }
     "assetBundlePatterns": [
       "**/*"
-    ],
+    ]
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.meetperto.app",
@@ -24,12 +24,12 @@
         "NSPhotoLibraryUsageDescription": "Permita acesso à galeria para enviar fotos no chat e no perfil.",
         "NSCameraUsageDescription": "Permita acesso à câmera para tirar fotos no chat e no perfil."
       }
-    },
+    }
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
+      }
       "package": "com.meetperto.app",
       "versionCode": 2,
       "permissions": [
@@ -42,14 +42,14 @@
         "READ_MEDIA_IMAGES",
         "READ_MEDIA_VIDEO"
       ]
-    },
+    }
     "web": {
       "favicon": "./assets/favicon.png"
-    },
+    }
     "plugins": [
       "expo-image-picker",
       "expo-location"
-    ],
+    ]
     "extra": {
       "eas": {
         "projectId": "0bd9f3bd-8ed4-4db8-b6db-441e9c2be1cd"
