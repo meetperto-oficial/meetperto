@@ -9,79 +9,51 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#FFFFFF"
+      "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.meetperto.encontroapp",
+      "bundleIdentifier": "com.meetperto.app",
       "buildNumber": "2",
       "infoPlist": {
-        "NSPhotoLibraryUsageDescription": "O Meet Perto usa sua galeria para você escolher uma foto de perfil.",
-        "NSCameraUsageDescription": "O Meet Perto usa a câmera para você tirar uma foto de perfil.",
-        "NSMicrophoneUsageDescription": "Permissão de microfone para vídeos no perfil.",
-        "NSLocationWhenInUseUsageDescription": "O Meet Perto usa sua localização para mostrar pessoas próximas a você.",
-        "ITSAppUsesNonExemptEncryption": false,
-        "UIRequiresFullScreen": true
+        "NSLocationWhenInUseUsageDescription": "O Meet Perto usa sua localização para mostrar eventos próximos de você.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "O Meet Perto usa sua localização em segundo plano para te notificar sobre eventos próximos.",
+        "NSPhotoLibraryUsageDescription": "Permita acesso à galeria para enviar fotos no chat e no perfil.",
+        "NSCameraUsageDescription": "Permita acesso à câmera para tirar fotos no chat e no perfil."
       }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#ffffff"
       },
-      "package": "com.meetperto.encontroapp",
+      "package": "com.meetperto.app",
       "versionCode": 2,
       "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION",
         "CAMERA",
         "READ_EXTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE",
         "READ_MEDIA_IMAGES",
-        "READ_MEDIA_VIDEO",
-        "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION"
-      ],
-      "softwareKeyboardLayoutMode": "pan"
+        "READ_MEDIA_VIDEO"
+      ]
     },
     "web": {
-      "favicon": "./assets/favicon.png",
-      "bundler": "metro"
+      "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      [
-        "expo-image-picker",
-        {
-          "photosPermission": "O Meet Perto acessa suas fotos para você escolher uma imagem de perfil.",
-          "cameraPermission": "O Meet Perto acessa sua câmera para você tirar uma foto de perfil."
-        }
-      ],
-      [
-        "expo-location",
-        {
-          "locationWhenInUsePermission": "O Meet Perto usa sua localização para mostrar pessoas próximas a você."
-        }
-      ],
-      [
-        "expo-build-properties",
-        {
-          "android": {
-            "compileSdkVersion": 34,
-            "targetSdkVersion": 34,
-            "buildToolsVersion": "34.0.0"
-          },
-          "ios": {
-            "deploymentTarget": "15.1"
-          }
-        }
-      ]
+      "expo-image-picker",
+      "expo-location"
     ],
     "extra": {
       "eas": {
         "projectId": "0bd9f3bd-8ed4-4db8-b6db-441e9c2be1cd"
       }
-    },
-    "owner": "meetperto-oficial"
+    }
   }
 }
