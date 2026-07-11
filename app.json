@@ -49,7 +49,6 @@
     "plugins": [
       "expo-apple-authentication",
       "expo-secure-store",
-      "expo-image-manipulator",
       "expo-image-picker",
       "expo-location",
       "expo-notifications"
